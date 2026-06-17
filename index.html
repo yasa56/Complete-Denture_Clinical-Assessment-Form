@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complete Denture — Clinical Assessment Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #0d1117; color: #e6edf3; }
+body { font-family: 'Source Sans 3', Arial, sans-serif; font-size: 14px; line-height: 1.5; padding: 0 0 60px; min-width: 900px; }
+input, textarea, select, button { font-family: inherit; font-size: 13px; }
+
+/* ── COVER ── */
+.cover {
+  background: #111825;
+  border-bottom: 3px solid #d4a843;
+  padding: 32px 32px 24px;
+  text-align: center;
+}
+.cover-badge {
+  display: inline-block;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+  color: #d4a843; background: #2a2010; border: 1px solid #6a5420;
+  padding: 4px 14px; border-radius: 20px; margin-bottom: 14px;
+}
+.cover h1 { font-size: 22px; font-weight: 600; color: #f0e6c8; margin-bottom: 6px; }
+.cover h1 span { color: #d4a843; }
+.cover-sub { font-size: 12px; color: #a0aec0; margin-bottom: 20px; }
+.cover-meta { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; font-size: 11px; color: #8898a8; }
+.cover-meta span { display: flex; align-items: center; gap: 5px; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: #d4a843; display: inline-block; }
+
+/* ── PATIENT INFO ── */
+.pt-section {
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  padding: 20px 32px;
+}
+.pt-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.pt-field { display: flex; flex-direction: column; gap: 4px; }
+.pt-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8898a8; }
+.pt-input {
+  background: #0d1117; border: 1px solid #30363d; border-radius: 5px;
+  padding: 7px 10px; font-size: 13px; color: #e6edf3; width: 100%;
+}
+.pt-input:focus { outline: none; border-color: #d4a843; }
+
+/* ── NAV PILLS ── */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: #0d1117;
+  border-bottom: 1px solid #30363d;
+  padding: 10px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.nav-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #1c2330;
+  border: 1px solid #30363d;
+  border-radius: 20px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  color: #a0aec0;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+  user-select: none;
+  white-space: nowrap;
+}
+.nav-pill:hover { background: #202840; border-color: #4a5568; color: #e6edf3; }
+.nav-pill.active { color: #e6edf3; border-color: #4a5568; }
+.nav-pill.active.np-s { background: #0d1e38; border-color: #60a5fa; color: #60a5fa; }
+.nav-pill.active.np-o { background: #0d2a18; border-color: #4ade80; color: #4ade80; }
+.nav-pill.active.np-a { background: #2a2010; border-color: #d4a843; color: #d4a843; }
+.nav-pill.active.np-p { background: #1e1030; border-color: #c084fc; color: #c084fc; }
+.nav-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%;
+  font-size: 10px; font-weight: 700; flex-shrink: 0;
+}
+.np-s .nav-badge { background: #0d1e38; color: #60a5fa; }
+.np-o .nav-badge { background: #0d2a18; color: #4ade80; }
+.np-a .nav-badge { background: #2a2010; color: #d4a843; }
+.np-p .nav-badge { background: #1e1030; color: #c084fc; }
+.nav-pill.active.np-s .nav-badge { background: #1a3a6a; }
+.nav-pill.active.np-o .nav-badge { background: #1a4a2a; }
+.nav-pill.active.np-a .nav-badge { background: #4a3818; }
+.nav-pill.active.np-p .nav-badge { background: #3a1a5a; }
+.main { max-width: 980px; margin: 0 auto; padding: 20px 32px 0; }
+
+/* ── SECTION CARD ── */
+.section-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+.section-toggle {
+  display: table; width: 100%; border-collapse: collapse;
+  background: #1c2330; cursor: pointer; border: none; text-align: left; padding: 0;
+}
+.section-toggle:hover { background: #202840; }
+.section-toggle td { padding: 13px 18px; vertical-align: middle; }
+.section-toggle td:last-child { width: 24px; text-align: right; }
+.section-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: 50%;
+  font-size: 11px; font-weight: 700; flex-shrink: 0;
+}
+.b-s { background: #0d1e38; color: #60a5fa; }
+.b-o { background: #0d2a18; color: #4ade80; }
+.b-a { background: #2a2010; color: #d4a843; }
+.b-p { background: #1e1030; color: #c084fc; }
+.section-title { font-size: 14px; font-weight: 600; color: #e6edf3; padding-left: 10px; }
+.chevron { font-size: 18px; color: #8898a8; transition: transform 0.2s; display: inline-block; }
+.chevron.open { transform: rotate(180deg); }
+.section-body { display: none; }
+.section-body.open { display: block; }
+
+/* ── SUB-HEADING ── */
+.sub-hd {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: #8898a8; padding: 12px 18px 8px; border-bottom: 1px solid #252d3d;
+  background: #131920;
+}
+
+/* ── FORM TABLE — THE KEY: pure HTML table for perfect alignment ── */
+.ftable {
+  width: 100%;
+  border-collapse: collapse;
+}
+.ftable tr { border-bottom: 1px solid #1e2a3a; }
+.ftable tr:last-child { border-bottom: none; }
+.ftable td {
+  padding: 9px 0;
+  vertical-align: top;
+}
+.ftable td.cat {
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #c9d1d9;
+  line-height: 1.3;
+  padding-right: 16px;
+  vertical-align: top;
+  padding-top: 11px;
+  padding-left: 18px;
+}
+.ftable td.opts {
+  vertical-align: top;
+  padding-top: 9px;
+  padding-right: 18px;
+}
+
+/* desktop only — no responsive overrides */
+
+/* ── CHECKBOX / RADIO ITEMS ── */
+.opts-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 24px;
+}
+.opts-wrap label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  line-height: 1;
+}
+.opts-wrap label span {
+  font-size: 12px;
+  color: #c9d1d9;
+  line-height: 1;
+}
+.opts-wrap input[type="checkbox"],
+.opts-wrap input[type="radio"] {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+  accent-color: #d4a843;
+  cursor: pointer;
+  vertical-align: middle;
+}
+.opts-wrap .fi-sm {
+  background: #0d1117; border: 1px solid #30363d; border-radius: 4px;
+  padding: 5px 8px; font-size: 12px; color: #e6edf3;
+  width: 70px; vertical-align: middle;
+}
+.opts-wrap .fi-sm:focus { outline: none; border-color: #d4a843; }
+.opts-wrap .unit { font-size: 11px; color: #8898a8; vertical-align: middle; }
+
+/* ── SUB-LABEL within opts (for location blocks) ── */
+.sub-arch {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #8898a8; display: block; margin-bottom: 5px; padding-top: 2px;
+}
+
+/* ── NOTES ── */
+.note-wrap { padding: 8px 18px 12px; }
+.note-lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8898a8; display: block; margin-bottom: 4px; }
+.note {
+  width: 100%; min-height: 52px;
+  background: #0d1117; border: 1px solid #30363d; border-radius: 5px;
+  padding: 8px 10px; font-size: 12px; color: #e6edf3; resize: vertical; line-height: 1.5;
+}
+.note:focus { outline: none; border-color: #d4a843; }
+
+/* ── MRONJ ── */
+.mronj-banner {
+  background: #2a1010; border: 1px solid #7a3030; border-radius: 6px;
+  padding: 9px 14px; margin: 10px 18px 6px; font-size: 12px; color: #f0b0b0; font-weight: 500;
+}
+.mronj-sub {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: #f87171; padding: 8px 0 5px 18px; border-bottom: 1px solid #3a1515;
+  background: #1e1010;
+}
+.risk-row td.cat { color: #f87171; }
+
+/* ── PROGNOSIS BOXES ── */
+.prog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 18px; }
+.prog-box { background: #1c2330; border: 1px solid #30363d; border-radius: 6px; padding: 12px 14px; }
+.prog-title { font-size: 11px; font-weight: 600; color: #8898a8; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
+.prog-box .opts-wrap { flex-direction: column; align-items: flex-start; gap: 7px; }
+
+/* ── VISIT SEQUENCE ── */
+.visit-list { padding: 10px 18px; }
+.visit-item {
+  display: table; width: 100%; border-collapse: collapse;
+  border: 1px solid #30363d; border-radius: 6px; margin-bottom: 6px;
+  background: #1a2030;
+}
+.visit-item:hover { background: #1e2840; }
+.visit-item td { padding: 9px 12px; vertical-align: middle; }
+.visit-item td.vi-cb { width: 32px; padding-right: 0; }
+.visit-item td.vi-cb input { width: 14px; height: 14px; margin: 0; accent-color: #d4a843; cursor: pointer; vertical-align: middle; display: block; }
+.visit-num { width: 96px; font-size: 11px; font-weight: 600; color: #8898a8; white-space: nowrap; }
+.visit-txt { font-size: 12px; color: #c9d1d9; line-height: 1.4; }
+
+/* ── LOCATION BLOCK ── */
+.loc-block { padding: 8px 0 4px; background: #131920; border-bottom: 1px solid #252d3d; }
+.loc-title { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #d4a843; margin-bottom: 8px; padding-left: 18px; }
+.loc-arch-lbl { font-size: 11px; font-weight: 600; color: #8898a8; display: block; margin: 6px 0 4px; }
+
+/* ── FOOTER ── */
+.form-footer {
+  padding: 16px 32px;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+  border-top: 1px solid #30363d; margin-top: 20px;
+}
+.print-btn {
+  background: #1c2330; border: 1px solid #30363d; border-radius: 6px;
+  padding: 9px 20px; font-size: 13px; font-weight: 500; color: #e6edf3;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+}
+.print-btn:hover { background: #202840; border-color: #d4a843; color: #d4a843; }
+.footer-meta { font-size: 11px; color: #8898a8; }
+
+/* ── PRINT STYLES ── */
+@media print {
+  html, body { background: #fff !important; color: #000 !important; font-size: 11px; }
+  .cover { background: #f8f8f8 !important; border-color: #888 !important; color: #000 !important; padding: 16px 24px; }
+  .cover h1 { color: #000 !important; font-size: 18px; }
+  .cover h1 span, .cover-badge { color: #444 !important; }
+  .cover-meta, .cover-sub { color: #444 !important; }
+  .pt-section { background: #f8f8f8 !important; border-color: #ccc !important; padding: 14px 24px; }
+  .pt-input { background: #fff !important; border-color: #999 !important; color: #000 !important; }
+  .pt-label { color: #444 !important; }
+  .main { padding: 10px 24px 0; max-width: 100%; }
+  .section-card { border-color: #ccc !important; background: #fff !important; page-break-inside: avoid; margin-bottom: 10px; }
+  .section-toggle { background: #f0f0f0 !important; }
+  .section-title { color: #000 !important; }
+  .section-body { display: block !important; }
+  .chevron { display: none; }
+  .sub-hd { color: #444 !important; background: #f4f4f4 !important; border-color: #ddd !important; padding: 8px 14px; }
+  .ftable tr { border-color: #e0e0e0 !important; }
+  .ftable td.cat { color: #000 !important; }
+  .opts-wrap label span { color: #000 !important; }
+  .opts-wrap input[type="checkbox"],
+  .opts-wrap input[type="radio"] { accent-color: #000 !important; }
+  .note { background: #fff !important; border-color: #bbb !important; color: #000 !important; min-height: 40px; }
+  .note-lbl { color: #444 !important; }
+  .mronj-banner { background: #fff0f0 !important; border-color: #f00 !important; color: #800 !important; }
+  .mronj-sub { background: #fff0f0 !important; color: #900 !important; border-color: #fcc !important; }
+  .risk-row td.cat { color: #900 !important; }
+  .prog-box { background: #f8f8f8 !important; border-color: #ccc !important; }
+  .prog-title { color: #444 !important; }
+  .visit-item { background: #f8f8f8 !important; border-color: #ccc !important; }
+  .visit-num { color: #444 !important; }
+  .visit-txt { color: #000 !important; }
+  .loc-block { background: #f4f4f4 !important; border-color: #ddd !important; }
+  .loc-title { color: #444 !important; }
+  .loc-arch-lbl { color: #666 !important; }
+  .sub-arch { color: #666 !important; }
+  .print-btn { display: none !important; }
+  .nav-bar { display: none !important; }
+  .form-footer { border-color: #ccc !important; }
+  .footer-meta { color: #444 !important; }
+  .section-badge { border: 1px solid #999; }
+  .b-s, .b-o, .b-a, .b-p { background: #eee !important; color: #000 !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-badge">Prosthodontics — Clinical Assessment</div>
+  <h1>Complete Denture <span>Clinical Assessment Form</span></h1>
+  <div class="cover-meta">
+    <span><span class="dot"></span>M. Y. Saleh, B.D.S., D.D.S.</span>
+  </div>
+</div>
+
+<!-- PATIENT INFO -->
+<div class="pt-section">
+  <div class="pt-grid" style="grid-template-columns: repeat(6, 1fr);">
+    <div class="pt-field"><span class="pt-label">First name</span><input class="pt-input" type="text" placeholder="First name"></div>
+    <div class="pt-field"><span class="pt-label">Last name</span><input class="pt-input" type="text" placeholder="Last name"></div>
+    <div class="pt-field"><span class="pt-label">Chart number</span><input class="pt-input" type="text" placeholder="Chart #"></div>
+    <div class="pt-field"><span class="pt-label">Date of birth</span><input class="pt-input" type="date"></div>
+    <div class="pt-field"><span class="pt-label">Exam date</span><input class="pt-input" type="date"></div>
+    <div class="pt-field"><span class="pt-label">Dentist</span><input class="pt-input" type="text" placeholder="Clinician name"></div>
+  </div>
+</div>
+
+<!-- NAV PILLS -->
+<nav class="nav-bar">
+  <div class="nav-pill np-s" id="pill-s1" onclick="navTog('s1')">
+    <span class="nav-badge">S</span>Subjective
+  </div>
+  <div class="nav-pill np-o" id="pill-s2" onclick="navTog('s2')">
+    <span class="nav-badge">O</span>Objective
+  </div>
+  <div class="nav-pill np-a" id="pill-s3" onclick="navTog('s3')">
+    <span class="nav-badge">A</span>Assessment
+  </div>
+  <div class="nav-pill np-p" id="pill-s4" onclick="navTog('s4')">
+    <span class="nav-badge">P</span>Treatment plan
+  </div>
+  <button class="print-btn" style="margin-left:auto;" onclick="printForm()">&#128438; Print</button>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- ══════════════════════════════════════
+     SECTION 1 — SUBJECTIVE
+══════════════════════════════════════ -->
+<div class="section-card">
+  <button class="section-toggle" onclick="tog('s1')">
+    <td><span class="section-badge b-s">S</span></td>
+    <td><span class="section-title">Section 1 — Subjective</span></td>
+    <td><span class="chevron" id="ch-s1">&#8964;</span></td>
+  </button>
+  <div class="section-body" id="s1">
+
+    <div class="sub-hd">Prosthetic history</div>
+    <table class="ftable">
+      <tr><td class="cat">Denture status</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>First-time wearer</span></label><label><input type="checkbox"><span>Previous complete dentures</span></label><label><input type="checkbox"><span>Previous RPD</span></label><label><input type="checkbox"><span>Previous implant prosthesis</span></label><label><input type="checkbox"><span>Previous immediate denture</span></label><label><input type="checkbox"><span>Previous overdenture</span></label></div></td></tr>
+      <tr><td class="cat">Number of previous dentures</td><td class="opts"><div class="opts-wrap"><input class="fi-sm" type="number" min="0" placeholder="0"></div></td></tr>
+      <tr><td class="cat">Date of extraction (most recent)</td><td class="opts"><div class="opts-wrap"><input class="fi-sm" type="date" style="width:160px"></div></td></tr>
+      <tr><td class="cat">Duration of denture wear</td><td class="opts"><div class="opts-wrap"><input class="fi-sm" type="number" min="0"><span class="unit">years</span></div></td></tr>
+      <tr><td class="cat">Edentulous period</td><td class="opts"><div class="opts-wrap"><input class="fi-sm" type="number" min="0"><span class="unit">years</span></div></td></tr>
+    </table>
+    <div class="note-wrap"><span class="note-lbl">Prosthetic history notes</span><textarea class="note" placeholder="Prior denture experience, satisfaction, problems with previous prostheses..."></textarea></div>
+
+    <div class="sub-hd">Chief complaint</div>
+    <table class="ftable">
+      <tr><td class="cat">Retention / stability</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Loose / poor retention</span></label><label><input type="checkbox"><span>Rocking / poor stability</span></label></div></td></tr>
+      <tr><td class="cat">Pain</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Sore spots</span></label><label><input type="checkbox"><span>Generalized discomfort</span></label><label><input type="checkbox"><span>TMJ pain</span></label></div></td></tr>
+      <tr><td class="cat">Function</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Difficulty chewing</span></label><label><input type="checkbox"><span>Speech difficulties</span></label><label><input type="checkbox"><span>Clicking during speech</span></label></div></td></tr>
+      <tr><td class="cat">Esthetics</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Esthetic dissatisfaction</span></label><label><input type="checkbox"><span>Midline concern</span></label><label><input type="checkbox"><span>Tooth color / shape</span></label></div></td></tr>
+      <tr><td class="cat">Other</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Broken denture</span></label><label><input type="checkbox"><span>Worn teeth</span></label><label><input type="checkbox"><span>Gagging</span></label><label><input type="checkbox"><span>Requests new set</span></label></div></td></tr>
+    </table>
+    <div class="note-wrap"><span class="note-lbl">Complaint details</span><textarea class="note" placeholder="Patient's own words describing the complaint..."></textarea></div>
+
+    <div class="sub-hd">Expectations and attitude</div>
+    <table class="ftable">
+      <tr><td class="cat">Expectations</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Realistic</span></label><label><input type="checkbox"><span>Unrealistic — counseled</span></label><label><input type="checkbox"><span>Primarily esthetic</span></label><label><input type="checkbox"><span>Primarily functional</span></label></div></td></tr>
+      <tr><td class="cat">Special requests</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Copy of old denture</span></label><label><input type="checkbox"><span>Significant change requested</span></label><label><input type="checkbox"><span>Implant interest</span></label><label><input type="checkbox"><span>Financial limitations</span></label></div></td></tr>
+      <tr><td class="cat">House classification</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="house"><span>I — Philosophical</span></label><label><input type="radio" name="house"><span>II — Exacting</span></label><label><input type="radio" name="house"><span>III — Hysterical</span></label><label><input type="radio" name="house"><span>IV — Indifferent</span></label></div></td></tr>
+    </table>
+    <div class="note-wrap"><span class="note-lbl">Expectations and attitude notes</span><textarea class="note" placeholder="Patient attitude, motivations, counseling provided..."></textarea></div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SECTION 2 — OBJECTIVE
+══════════════════════════════════════ -->
+<div class="section-card">
+  <button class="section-toggle" onclick="tog('s2')">
+    <td><span class="section-badge b-o">O</span></td>
+    <td><span class="section-title">Section 2 — Objective examination</span></td>
+    <td><span class="chevron" id="ch-s2">&#8964;</span></td>
+  </button>
+  <div class="section-body" id="s2">
+
+    <div class="sub-hd">Extraoral examination</div>
+    <table class="ftable">
+      <tr><td class="cat">Facial symmetry</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="fsym"><span>Symmetric</span></label><label><input type="radio" name="fsym"><span>Asymmetric</span></label></div></td></tr>
+      <tr><td class="cat">Facial profile</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="fprof"><span>Orthognathic</span></label><label><input type="radio" name="fprof"><span>Class II</span></label><label><input type="radio" name="fprof"><span>Class III / prognathic</span></label></div></td></tr>
+      <tr><td class="cat">Lip support</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="lip"><span>Adequate</span></label><label><input type="radio" name="lip"><span>Deficient</span></label><label><input type="radio" name="lip"><span>Excessive</span></label></div></td></tr>
+      <tr><td class="cat">Commissures</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Normal</span></label><label><input type="checkbox"><span>Angular cheilitis</span></label><label><input type="checkbox"><span>Mentolabial fold — deepened</span></label></div></td></tr>
+      <tr><td class="cat">Lymph nodes</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="lymph"><span>Not palpable</span></label><label><input type="radio" name="lymph"><span>Enlarged / tender</span></label></div></td></tr>
+    </table>
+    <div class="note-wrap"><span class="note-lbl">Extraoral notes</span><textarea class="note" placeholder="Facial form, profile, asymmetry, skin findings..."></textarea></div>
+
+    <div class="sub-hd">TMJ and muscles</div>
+    <table class="ftable">
+      <tr><td class="cat">TMJ sounds</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>None</span></label><label><input type="checkbox"><span>Click — right</span></label><label><input type="checkbox"><span>Click — left</span></label><label><input type="checkbox"><span>Crepitus</span></label></div></td></tr>
+      <tr><td class="cat">TMJ tenderness</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>None</span></label><label><input type="checkbox"><span>Right</span></label><label><input type="checkbox"><span>Left</span></label><label><input type="checkbox"><span>Bilateral</span></label></div></td></tr>
+      <tr><td class="cat">Maximum opening</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="open"><span>Normal (&gt;40mm)</span></label><label><input type="radio" name="open"><span>Limited</span></label><label><input type="radio" name="open"><span>Deviation</span></label><input class="fi-sm" type="number" placeholder="mm" style="margin-left:10px"><span class="unit">mm</span></div></td></tr>
+      <tr><td class="cat">Masseter</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="mass"><span>Normal</span></label><label><input type="radio" name="mass"><span>Hypertrophy</span></label><label><input type="radio" name="mass"><span>Tender</span></label></div></td></tr>
+      <tr><td class="cat">Temporalis</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="temp"><span>Normal</span></label><label><input type="radio" name="temp"><span>Tender</span></label></div></td></tr>
+      <tr><td class="cat">Parafunction</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>None reported</span></label><label><input type="checkbox"><span>Bruxism</span></label><label><input type="checkbox"><span>Clenching</span></label><label><input type="checkbox"><span>History of TMD</span></label></div></td></tr>
+    </table>
+    <div class="note-wrap"><span class="note-lbl">TMJ and muscle notes</span><textarea class="note" placeholder="Jaw movement, muscle palpation, TMD history..."></textarea></div>
+
+    <div class="sub-hd">Maxillary ridge</div>
+    <table class="ftable">
+      <tr><td class="cat">Cawood–Howell class</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="mxr"><span>II — Post-extraction</span></label><label><input type="radio" name="mxr"><span>III — Well-rounded</span></label><label><input type="radio" name="mxr"><span>IV — Knife-edge</span></label><label><input type="radio" name="mxr"><span>V — Flat</span></label><label><input type="radio" name="mxr"><span>VI — Depressed</span></label></div></td></tr>
+      <tr><td class="cat">Tissue quality</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Normal / firm</span></label><label><input type="checkbox"><span>Flabby</span></label><label><input type="checkbox"><span>Fibrous</span></label><label><input type="checkbox"><span>Hyperplastic</span></label><label><input type="checkbox"><span>Inflamed</span></label></div></td></tr>
+      <tr><td class="cat">Torus palatinus</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Absent</span></label><label><input type="checkbox"><span>Present — small</span></label><label><input type="checkbox"><span>Present — large</span></label><label><input type="checkbox"><span>Requires surgery</span></label></div></td></tr>
+      <tr><td class="cat">Tuberosity</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="tub"><span>Adequate</span></label><label><input type="radio" name="tub"><span>Fibrous / flabby</span></label><label><input type="radio" name="tub"><span>Undercut</span></label><label><input type="radio" name="tub"><span>Enlarged</span></label></div></td></tr>
+      <tr><td class="cat">Palatal vault</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="vault"><span>Normal</span></label><label><input type="radio" name="vault"><span>Flat</span></label><label><input type="radio" name="vault"><span>High</span></label></div></td></tr>
+      <tr><td class="cat">HIP landmarks</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Incisive papilla — identifiable</span></label><label><input type="checkbox"><span>Hamular notch R — palpable</span></label><label><input type="checkbox"><span>Hamular notch L — palpable</span></label><label><input type="checkbox"><span>Asymmetry noted</span></label></div></td></tr>
+      <tr><td class="cat">Fovea palatinae</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="fov"><span>Visible</span></label><label><input type="radio" name="fov"><span>Not visible</span></label></div></td></tr>
+      <tr><td class="cat">Labial frenum</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="lfmx"><span>Normal</span></label><label><input type="radio" name="lfmx"><span>High attachment</span></label><label><input type="radio" name="lfmx"><span>Frenectomy indicated</span></label></div></td></tr>
+      <tr><td class="cat">Post-surgical changes</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>None</span></label><label><input type="checkbox"><span>Tuberosity reduction</span></label><label><input type="checkbox"><span>Torus removal scar</span></label><label><input type="checkbox"><span>Other</span></label></div></td></tr>
+    </table>
+    <div class="note-wrap"><span class="note-lbl">Maxillary ridge notes</span><textarea class="note" placeholder="Ridge form, HIP landmark status, tissue quality, surgical history..."></textarea></div>
+
+    <div class="sub-hd">Mandibular ridge</div>
+    <table class="ftable">
+      <tr><td class="cat">Cawood–Howell class</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="mnr"><span>II — Post-extraction</span></label><label><input type="radio" name="mnr"><span>III — Well-rounded</span></label><label><input type="radio" name="mnr"><span>IV — Knife-edge</span></label><label><input type="radio" name="mnr"><span>V — Flat</span></label><label><input type="radio" name="mnr"><span>VI — Depressed</span></label></div></td></tr>
+      <tr><td class="cat">Tissue quality</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Normal / firm</span></label><label><input type="checkbox"><span>Flabby</span></label><label><input type="checkbox"><span>Fibrous</span></label><label><input type="checkbox"><span>Hyperplastic</span></label></div></td></tr>
+      <tr><td class="cat">Torus mandibularis</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Absent</span></label><label><input type="checkbox"><span>Right</span></label><label><input type="checkbox"><span>Left</span></label><label><input type="checkbox"><span>Bilateral</span></label><label><input type="checkbox"><span>Requires surgery</span></label></div></td></tr>
+      <tr><td class="cat">Retromolar pad</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="rmp"><span>Well-defined</span></label><label><input type="radio" name="rmp"><span>Poorly defined</span></label><label><input type="radio" name="rmp"><span>Fibrous</span></label></div></td></tr>
+      <tr><td class="cat">Mental foramen</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="mf"><span>Below crest — normal</span></label><label><input type="radio" name="mf"><span>At crest — relief required</span></label></div></td></tr>
+      <tr><td class="cat">Mylohyoid ridge</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="myl"><span>Normal</span></label><label><input type="radio" name="myl"><span>Sharp / prominent</span></label></div></td></tr>
+      <tr><td class="cat">Genial tubercles</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="gen"><span>Below crest</span></label><label><input type="radio" name="gen"><span>At crest</span></label></div></td></tr>
+      <tr><td class="cat">Labial frenum</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="lfmn"><span>Normal</span></label><label><input type="radio" name="lfmn"><span>High attachment</span></label><label><input type="radio" name="lfmn"><span>Frenectomy indicated</span></label></div></td></tr>
+      <tr><td class="cat">Lingual frenum</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="lingf"><span>Normal</span></label><label><input type="radio" name="lingf"><span>Restrictive</span></label></div></td></tr>
+      <tr><td class="cat">Neutral zone</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="nz"><span>Assessable</span></label><label><input type="radio" name="nz"><span>Technique indicated</span></label></div></td></tr>
+    </table>
+    <div class="note-wrap"><span class="note-lbl">Mandibular ridge notes</span><textarea class="note" placeholder="Ridge class, mental foramen position, retromolar pad, tori details..."></textarea></div>
+
+    <div class="sub-hd">Ridge relationship — Angle's classification (mounted casts)</div>
+    <table class="ftable">
+      <tr><td class="cat">Classification</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="ang"><span>Class I — Orthognathic</span></label><label><input type="radio" name="ang"><span>Class II Div 1</span></label><label><input type="radio" name="ang"><span>Class II Div 2</span></label><label><input type="radio" name="ang"><span>Class III</span></label><label><input type="radio" name="ang"><span>Pseudo-Class III</span></label></div></td></tr>
+      <tr><td class="cat">Overjet</td><td class="opts"><div class="opts-wrap"><input class="fi-sm" type="number" placeholder="mm"><span class="unit">mm</span></div></td></tr>
+    </table>
+    <div class="note-wrap"><span class="note-lbl">Ridge relationship notes</span><textarea class="note" placeholder="Inter-ridge findings on mounted casts, deviation from Class I, correction strategy..."></textarea></div>
+
+    <div class="sub-hd">Tongue and soft tissues</div>
+    <table class="ftable">
+      <tr><td class="cat">Tongue size</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="tong"><span>Normal</span></label><label><input type="radio" name="tong"><span>Macroglossia</span></label></div></td></tr>
+      <tr><td class="cat">Tongue position</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="tpos"><span>Class I</span></label><label><input type="radio" name="tpos"><span>Class II — retracted</span></label><label><input type="radio" name="tpos"><span>Class III — spread</span></label></div></td></tr>
+      <tr><td class="cat">Floor of mouth</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="fom"><span>Normal depth</span></label><label><input type="radio" name="fom"><span>Shallow</span></label></div></td></tr>
+      <tr><td class="cat">Mucosa</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Normal</span></label><label><input type="checkbox"><span>Denture stomatitis</span></label><label><input type="checkbox"><span>Epulis fissuratum</span></label><label><input type="checkbox"><span>Candidiasis suspected</span></label><label><input type="checkbox"><span>Suspicious lesion — refer</span></label></div></td></tr>
+    </table>
+    <div class="note-wrap"><span class="note-lbl">Soft tissue notes</span><textarea class="note" placeholder="Mucosal findings, lesions, tongue details..."></textarea></div>
+
+    <div class="sub-hd">Saliva assessment</div>
+    <table class="ftable">
+      <tr><td class="cat">Quantity</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="salq"><span>Normal</span></label><label><input type="radio" name="salq"><span>Reduced (hyposalivation)</span></label><label><input type="radio" name="salq"><span>Xerostomia (subjective dry mouth)</span></label></div></td></tr>
+      <tr><td class="cat">Quality</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="salv"><span>Normal / serous</span></label><label><input type="radio" name="salv"><span>Viscous / ropy</span></label></div></td></tr>
+      <tr><td class="cat">Pooling — floor of mouth</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="pool"><span>Present</span></label><label><input type="radio" name="pool"><span>Absent</span></label></div></td></tr>
+      <tr><td class="cat">Xerostomia medications</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Antihypertensives</span></label><label><input type="checkbox"><span>Antihistamines</span></label><label><input type="checkbox"><span>Antidepressants</span></label><label><input type="checkbox"><span>Antipsychotics</span></label><label><input type="checkbox"><span>Anticholinergics</span></label><label><input type="checkbox"><span>Benzodiazepines</span></label><label><input type="checkbox"><span>Opioids</span></label><label><input type="checkbox"><span>Chemotherapy agents</span></label></div></td></tr>
+      <tr><td class="cat">Systemic causes</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Head / neck radiation</span></label><label><input type="checkbox"><span>Sjögren's syndrome</span></label><label><input type="checkbox"><span>Uncontrolled diabetes</span></label></div></td></tr>
+    </table>
+    <div class="note-wrap"><span class="note-lbl">Saliva notes</span><textarea class="note" placeholder="Saliva quality, xerostomia medications, systemic causes..."></textarea></div>
+
+    <div class="sub-hd">MRONJ — Medication-Related Osteonecrosis of the Jaw</div>
+    <div class="mronj-banner">&#9888; Screen all complete denture patients before fabrication. Denture-related mucosal trauma in at-risk patients may precipitate osteonecrosis of the jaw.</div>
+
+    <div class="mronj-sub">Bisphosphonates — oral</div>
+    <table class="ftable">
+      <tr class="risk-row"><td class="cat">Oral bisphosphonates</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Alendronate (Fosamax)</span></label><label><input type="checkbox"><span>Risedronate (Actonel)</span></label><label><input type="checkbox"><span>Ibandronate (Boniva)</span></label></div></td></tr>
+    </table>
+
+    <div class="mronj-sub">Bisphosphonates — intravenous</div>
+    <table class="ftable">
+      <tr class="risk-row"><td class="cat">IV bisphosphonates</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Zoledronic acid (Zometa)</span></label><label><input type="checkbox"><span>Pamidronate (Aredia)</span></label><label><input type="checkbox"><span>Ibandronate IV</span></label></div></td></tr>
+    </table>
+
+    <div class="mronj-sub">Antiresorptive — non-bisphosphonate</div>
+    <table class="ftable">
+      <tr class="risk-row"><td class="cat">Denosumab</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Prolia (osteoporosis dose)</span></label><label><input type="checkbox"><span>Xgeva (oncology dose)</span></label></div></td></tr>
+    </table>
+
+    <div class="mronj-sub">Antiangiogenic agents</div>
+    <table class="ftable">
+      <tr class="risk-row"><td class="cat">Anti-VEGF</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Bevacizumab (Avastin)</span></label></div></td></tr>
+      <tr class="risk-row"><td class="cat">Tyrosine kinase inhibitors</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Sunitinib (Sutent)</span></label><label><input type="checkbox"><span>Sorafenib (Nexavar)</span></label><label><input type="checkbox"><span>Cabozantinib</span></label></div></td></tr>
+      <tr class="risk-row"><td class="cat">mTOR inhibitors</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Everolimus</span></label></div></td></tr>
+    </table>
+
+    <div class="mronj-sub">Additional MRONJ risk factors</div>
+    <table class="ftable">
+      <tr class="risk-row"><td class="cat">Medications</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Corticosteroids — long-term</span></label><label><input type="checkbox"><span>Methotrexate</span></label></div></td></tr>
+      <tr class="risk-row"><td class="cat">Medical history</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Head / neck radiation</span></label><label><input type="checkbox"><span>Active cancer</span></label><label><input type="checkbox"><span>Immunosuppression</span></label></div></td></tr>
+      <tr class="risk-row"><td class="cat">Systemic risk factors</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Uncontrolled diabetes</span></label><label><input type="checkbox"><span>Anemia</span></label><label><input type="checkbox"><span>Smoking</span></label></div></td></tr>
+      <tr class="risk-row"><td class="cat">Bisphosphonate duration</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="bpdur"><span>&lt;3 years</span></label><label><input type="radio" name="bpdur"><span>&gt;3 years — elevated risk</span></label></div></td></tr>
+      <tr class="risk-row"><td class="cat">CTX bone marker</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="ctx"><span>Not obtained</span></label><label><input type="radio" name="ctx"><span>Obtained</span></label><input class="fi-sm" type="text" placeholder="pg/mL" style="width:90px;margin-left:10px"></div></td></tr>
+      <tr class="risk-row"><td class="cat">MRONJ risk level</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="mronj"><span style="color:#4ade80;font-weight:600">Low</span></label><label><input type="radio" name="mronj"><span style="color:#fbbf24;font-weight:600">Moderate</span></label><label><input type="radio" name="mronj"><span style="color:#f87171;font-weight:600">High — physician consult required</span></label></div></td></tr>
+    </table>
+    <div class="note-wrap"><span class="note-lbl">MRONJ notes — drug name, dose, duration, oncology status, physician contact</span><textarea class="note" placeholder="Specific drug, dose, duration of use, indication (osteoporosis vs oncology), CTX result, physician contacted, informed consent status..."></textarea></div>
+
+    <div class="sub-hd">Existing denture evaluation</div>
+    <table class="ftable">
+      <tr><td class="cat">Status</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="exden"><span>No existing denture</span></label><label><input type="radio" name="exden"><span>Denture present</span></label></div></td></tr>
+      <tr><td class="cat">Retention</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="ret"><span>Adequate</span></label><label><input type="radio" name="ret"><span>Poor</span></label></div></td></tr>
+      <tr><td class="cat">Stability</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="stab"><span>Adequate</span></label><label><input type="radio" name="stab"><span>Poor</span></label></div></td></tr>
+      <tr><td class="cat">VDO</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="vdo"><span>Acceptable</span></label><label><input type="radio" name="vdo"><span>Over-opened</span></label><label><input type="radio" name="vdo"><span>Over-closed</span></label><input class="fi-sm" type="number" placeholder="mm" style="margin-left:12px"><span class="unit">mm</span></div></td></tr>
+      <tr><td class="cat">Freeway space</td><td class="opts"><div class="opts-wrap"><input class="fi-sm" type="number" placeholder="mm"><span class="unit">mm</span></div></td></tr>
+      <tr><td class="cat">Occlusal plane</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="ocp"><span>Acceptable</span></label><label><input type="radio" name="ocp"><span>Tilted</span></label><label><input type="radio" name="ocp"><span>Grossly incorrect</span></label></div></td></tr>
+      <tr><td class="cat">Midline</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="mid"><span>Correct</span></label><label><input type="radio" name="mid"><span>Deviated</span></label></div></td></tr>
+      <tr><td class="cat">Teeth</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Acceptable wear</span></label><label><input type="checkbox"><span>Severely worn</span></label><label><input type="checkbox"><span>Fractured</span></label></div></td></tr>
+      <tr><td class="cat">Denture base</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Intact</span></label><label><input type="checkbox"><span>Fractured</span></label><label><input type="checkbox"><span>Previously relined</span></label></div></td></tr>
+    </table>
+    <div class="note-wrap"><span class="note-lbl">Existing denture notes</span><textarea class="note" placeholder="Overall quality, features to replicate or avoid, reline history..."></textarea></div>
+
+    <div class="sub-hd">Radiographic findings</div>
+    <table class="ftable">
+      <tr><td class="cat">Radiograph obtained</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Panoramic — obtained</span></label><label><input type="checkbox"><span>Not obtained</span></label></div></td></tr>
+      <tr><td class="cat">Residual pathology</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>None</span></label><label><input type="checkbox"><span>Residual roots</span></label><label><input type="checkbox"><span>Cyst / lesion</span></label><label><input type="checkbox"><span>Foreign body</span></label></div></td></tr>
+      <tr><td class="cat">Bone quality</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="bone"><span>Adequate</span></label><label><input type="radio" name="bone"><span>Reduced (osteopenia)</span></label></div></td></tr>
+      <tr><td class="cat">Mental foramen</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="mfr"><span>Normal position</span></label><label><input type="radio" name="mfr"><span>At or near crest</span></label></div></td></tr>
+      <tr><td class="cat">Other findings</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Nasopalatine canal — enlarged</span></label><label><input type="checkbox"><span>No significant findings</span></label></div></td></tr>
+    </table>
+    <div class="note-wrap"><span class="note-lbl">Radiographic notes</span><textarea class="note" placeholder="Radiographic findings, pathology, bone quality, management needed..."></textarea></div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SECTION 3 — ASSESSMENT
+══════════════════════════════════════ -->
+<div class="section-card">
+  <button class="section-toggle" onclick="tog('s3')">
+    <td><span class="section-badge b-a">A</span></td>
+    <td><span class="section-title">Section 3 — Assessment</span></td>
+    <td><span class="chevron" id="ch-s3">&#8964;</span></td>
+  </button>
+  <div class="section-body" id="s3">
+
+    <div class="sub-hd">Prognosis</div>
+    <div class="prog-grid">
+      <div class="prog-box">
+        <div class="prog-title">Maxillary denture prognosis</div>
+        <div class="opts-wrap" style="flex-direction:column;align-items:flex-start;gap:8px">
+          <label><input type="radio" name="mxprog"><span style="color:#4ade80;font-weight:600">Favorable</span></label>
+          <label><input type="radio" name="mxprog"><span style="color:#fbbf24;font-weight:600">Guarded</span></label>
+          <label><input type="radio" name="mxprog"><span style="color:#f87171;font-weight:600">Poor</span></label>
+        </div>
+      </div>
+      <div class="prog-box">
+        <div class="prog-title">Mandibular denture prognosis</div>
+        <div class="opts-wrap" style="flex-direction:column;align-items:flex-start;gap:8px">
+          <label><input type="radio" name="mnprog"><span style="color:#4ade80;font-weight:600">Favorable</span></label>
+          <label><input type="radio" name="mnprog"><span style="color:#fbbf24;font-weight:600">Guarded</span></label>
+          <label><input type="radio" name="mnprog"><span style="color:#f87171;font-weight:600">Poor</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-hd">Prognosis modifying factors</div>
+    <table class="ftable">
+      <tr><td class="cat">Ridge</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Favorable morphology</span></label><label><input type="checkbox"><span>Severe resorption</span></label><label><input type="checkbox"><span>Flabby ridge</span></label><label><input type="checkbox"><span>Knife-edge</span></label></div></td></tr>
+      <tr><td class="cat">Saliva</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Adequate — favorable</span></label><label><input type="checkbox"><span>Xerostomia — compromises retention</span></label></div></td></tr>
+      <tr><td class="cat">Patient factors</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Cooperative</span></label><label><input type="checkbox"><span>Unrealistic expectations — counseled</span></label><label><input type="checkbox"><span>Gag reflex</span></label><label><input type="checkbox"><span>Compromised neuromuscular control</span></label></div></td></tr>
+      <tr><td class="cat">Ridge relationship</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Class I — standard technique</span></label><label><input type="checkbox"><span>Class II / III — modified technique</span></label></div></td></tr>
+      <tr><td class="cat">Risk factors</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>MRONJ risk — managed</span></label><label><input type="checkbox"><span>Implant referral discussed</span></label></div></td></tr>
+    </table>
+
+    <div class="sub-hd">Diagnoses</div>
+    <table class="ftable">
+      <tr><td class="cat">Edentulism</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Complete — maxilla</span></label><label><input type="checkbox"><span>Complete — mandible</span></label></div></td></tr>
+      <tr><td class="cat">Existing prosthesis</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Ill-fitting denture</span></label><label><input type="checkbox"><span>Worn / fractured denture</span></label></div></td></tr>
+      <tr><td class="cat">Soft tissue</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Denture stomatitis</span></label><label><input type="checkbox"><span>Epulis fissuratum</span></label><label><input type="checkbox"><span>Flabby ridge</span></label><label><input type="checkbox"><span>Candidiasis</span></label></div></td></tr>
+      <tr><td class="cat">Other</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Xerostomia</span></label><label><input type="checkbox"><span>MRONJ risk — active monitoring</span></label><label><input type="checkbox"><span>TMD — coexisting</span></label></div></td></tr>
+    </table>
+    <div class="note-wrap"><span class="note-lbl">Assessment narrative</span><textarea class="note" style="min-height:90px" placeholder="Summary of clinical findings, diagnoses, risk factors, counseling provided..."></textarea></div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SECTION 4 — TREATMENT PLAN
+══════════════════════════════════════ -->
+<div class="section-card">
+  <button class="section-toggle" onclick="tog('s4')">
+    <td><span class="section-badge b-p">P</span></td>
+    <td><span class="section-title">Section 4 — Treatment plan</span></td>
+    <td><span class="chevron" id="ch-s4">&#8964;</span></td>
+  </button>
+  <div class="section-body" id="s4">
+
+    <div class="sub-hd">Pre-prosthetic preparation</div>
+    <table class="ftable">
+      <tr><td class="cat">Surgery — general</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Residual root removal</span></label><label><input type="checkbox"><span>Torus removal — palatal</span></label><label><input type="checkbox"><span>Torus removal — mandibular</span></label></div></td></tr>
+    </table>
+
+    <div class="loc-block">
+      <div class="loc-title">Alveoloplasty — location</div>
+      <table class="ftable">
+        <tr><td class="cat">Upper arch</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Upper right posterior</span></label><label><input type="checkbox"><span>Upper right cuspid area</span></label><label><input type="checkbox"><span>Upper anterior sextant</span></label><label><input type="checkbox"><span>Upper left cuspid area</span></label><label><input type="checkbox"><span>Upper left posterior</span></label><label><input type="checkbox"><span>Complete arch</span></label></div></td></tr>
+        <tr><td class="cat">Lower arch</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Lower right posterior</span></label><label><input type="checkbox"><span>Lower right cuspid area</span></label><label><input type="checkbox"><span>Lower anterior sextant</span></label><label><input type="checkbox"><span>Lower left cuspid area</span></label><label><input type="checkbox"><span>Lower left posterior</span></label><label><input type="checkbox"><span>Complete arch</span></label></div></td></tr>
+      </table>
+    </div>
+
+    <div class="loc-block">
+      <div class="loc-title">Epulis / hyperplasia excision — location</div>
+      <table class="ftable">
+        <tr><td class="cat">Arch</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Upper</span></label><label><input type="checkbox"><span>Lower</span></label><label><input type="checkbox"><span>Bilateral</span></label></div></td></tr>
+      </table>
+    </div>
+
+    <table class="ftable">
+      <tr><td class="cat">Soft tissue</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Frenectomy — labial upper</span></label><label><input type="checkbox"><span>Frenectomy — labial lower</span></label><label><input type="checkbox"><span>Frenectomy — lingual</span></label></div></td></tr>
+      <tr><td class="cat">Medical</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Antifungal treatment</span></label><label><input type="checkbox"><span>Physician consult — MRONJ</span></label><label><input type="checkbox"><span>Physician consult — systemic</span></label><label><input type="checkbox"><span>Implant referral</span></label></div></td></tr>
+      <tr><td class="cat">Healing period</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Required before impression</span></label><input class="fi-sm" type="number" style="margin-left:12px"><span class="unit">weeks</span></div></td></tr>
+    </table>
+    <div class="note-wrap"><span class="note-lbl">Pre-prosthetic notes</span><textarea class="note" placeholder="Surgical sequence, specialist contacts, healing timeline..."></textarea></div>
+
+    <div class="sub-hd">Clinical visit sequence</div>
+    <div class="visit-list">
+      <table class="visit-item"><tr><td class="vi-cb"><input type="checkbox"></td><td class="visit-num">Visit 1</td><td class="visit-txt">Diagnosis, records, primary impressions (alginate / stock tray)</td></tr></table>
+      <table class="visit-item"><tr><td class="vi-cb"><input type="checkbox"></td><td class="visit-num">Visit 2</td><td class="visit-txt">Custom tray construction, border molding, final impression</td></tr></table>
+      <table class="visit-item"><tr><td class="vi-cb"><input type="checkbox"></td><td class="visit-num">Lab — desktop</td><td class="visit-txt">HIP plane tripoding — Saleh Method + occlusal rim construction</td></tr></table>
+      <table class="visit-item"><tr><td class="vi-cb"><input type="checkbox"></td><td class="visit-num">Visit 3</td><td class="visit-txt">Jaw registration: VDO, centric relation, face-bow transfer, occlusal plane verification</td></tr></table>
+      <table class="visit-item"><tr><td class="vi-cb"><input type="checkbox"></td><td class="visit-num">Visit 4</td><td class="visit-txt">Wax try-in: tooth arrangement, esthetics, phonetics (/f/, /s/, /th/), occlusion check</td></tr></table>
+      <table class="visit-item"><tr><td class="vi-cb"><input type="checkbox"></td><td class="visit-num">Visit 5</td><td class="visit-txt">Denture delivery: insertion, occlusal adjustment, patient instruction</td></tr></table>
+      <table class="visit-item"><tr><td class="vi-cb"><input type="checkbox"></td><td class="visit-num">Visit 6</td><td class="visit-txt">24-hour review: sore spots, comfort, retention assessment</td></tr></table>
+      <table class="visit-item"><tr><td class="vi-cb"><input type="checkbox"></td><td class="visit-num">Visit 7</td><td class="visit-txt">1-week review: occlusion, phonetics, patient satisfaction</td></tr></table>
+      <table class="visit-item"><tr><td class="vi-cb"><input type="checkbox"></td><td class="visit-num">Visit 8</td><td class="visit-txt">1-month review: ridge adaptation, reline assessment</td></tr></table>
+      <table class="visit-item"><tr><td class="vi-cb"><input type="checkbox"></td><td class="visit-num">Visit 9</td><td class="visit-txt">6-month reline / rebase evaluation</td></tr></table>
+      <table class="visit-item"><tr><td class="vi-cb"><input type="checkbox"></td><td class="visit-num">Recall</td><td class="visit-txt">Annual review: ridge changes, occlusal wear, tissue health</td></tr></table>
+    </div>
+    <div class="note-wrap"><span class="note-lbl">Visit sequence notes</span><textarea class="note" placeholder="Scheduling notes, lab instructions, special visit requirements..."></textarea></div>
+
+    <div class="sub-hd">Special technique considerations</div>
+    <table class="ftable">
+      <tr><td class="cat">Occlusal plane method</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Saleh Method — HIP tripoding (desktop surveyor)</span></label></div></td></tr>
+      <tr><td class="cat">Impression technique</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Neutral zone — lower denture</span></label><label><input type="checkbox"><span>Flabby ridge technique</span></label><label><input type="checkbox"><span>Copy / duplicate denture</span></label><label><input type="checkbox"><span>Immediate denture protocol</span></label></div></td></tr>
+      <tr><td class="cat">Occlusal scheme</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="osch"><span>Balanced occlusion</span></label><label><input type="radio" name="osch"><span>Lingualized occlusion</span></label><label><input type="radio" name="osch"><span>Monoplane / zero-degree</span></label></div></td></tr>
+      <tr><td class="cat">VDO determination method</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Phonetic — /s/ sibilant test</span></label><label><input type="checkbox"><span>Willis gauge</span></label><label><input type="checkbox"><span>Swallowing method</span></label><label><input type="checkbox"><span>Pre-extraction records</span></label></div></td></tr>
+      <tr><td class="cat">Other</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Soft liner indicated</span></label><label><input type="checkbox"><span>Implant overdenture — referral</span></label></div></td></tr>
+    </table>
+    <div class="note-wrap"><span class="note-lbl">Technique notes</span><textarea class="note" placeholder="Chosen technique rationale, occlusal scheme, material selection, lab prescriptions..."></textarea></div>
+
+    <div class="sub-hd">Informed consent</div>
+    <table class="ftable">
+      <tr><td class="cat">Items discussed</td><td class="opts"><div class="opts-wrap"><label><input type="checkbox"><span>Prognosis explained</span></label><label><input type="checkbox"><span>Limitations of complete dentures</span></label><label><input type="checkbox"><span>MRONJ risk — consent obtained</span></label><label><input type="checkbox"><span>Implant alternative discussed</span></label><label><input type="checkbox"><span>Fees discussed and agreed</span></label></div></td></tr>
+      <tr><td class="cat">Consent status</td><td class="opts"><div class="opts-wrap"><label><input type="radio" name="cons"><span>Written — signed</span></label><label><input type="radio" name="cons"><span>Verbal — documented</span></label><label><input type="radio" name="cons"><span>Pending</span></label></div></td></tr>
+    </table>
+    <div class="note-wrap"><span class="note-lbl">Final planning notes</span><textarea class="note" style="min-height:90px" placeholder="Treatment plan summary, consent notes, dentist signature..."></textarea></div>
+
+  </div>
+</div>
+
+<div class="form-footer">
+  <span class="footer-meta">M. Y. Saleh, B.D.S., D.D.S. &nbsp;·&nbsp; Complete Denture Clinical Assessment Form &nbsp;·&nbsp; June 2026</span>
+</div>
+
+</div><!-- /main -->
+
+<script>
+function tog(id) {
+  var body = document.getElementById(id);
+  var chev = document.getElementById('ch-' + id);
+  var isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+  updatePills();
+}
+
+function navTog(id) {
+  var body = document.getElementById(id);
+  var chev = document.getElementById('ch-' + id);
+  var isOpen = body.classList.contains('open');
+  if (!isOpen) {
+    body.classList.add('open');
+    chev.classList.add('open');
+  } else {
+    body.classList.remove('open');
+    chev.classList.remove('open');
+  }
+  updatePills();
+  var card = document.getElementById(id).parentElement;
+  if (card) {
+    setTimeout(function() {
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 60);
+  }
+}
+
+function updatePills() {
+  var ids = ['s1', 's2', 's3', 's4'];
+  ids.forEach(function(id) {
+    var pill = document.getElementById('pill-' + id);
+    var body = document.getElementById(id);
+    if (pill && body) {
+      if (body.classList.contains('open')) {
+        pill.classList.add('active');
+      } else {
+        pill.classList.remove('active');
+      }
+    }
+  });
+}
+
+function printForm() {
+  var ids = ['s1', 's2', 's3', 's4'];
+  var wasOpen = {};
+  ids.forEach(function(id) {
+    var body = document.getElementById(id);
+    wasOpen[id] = body.classList.contains('open');
+    body.classList.add('open');
+    body.style.display = 'block';
+  });
+  setTimeout(function() {
+    window.print();
+  }, 400);
+  window.addEventListener('afterprint', function onAfterPrint() {
+    ids.forEach(function(id) {
+      var body = document.getElementById(id);
+      body.style.display = '';
+      if (!wasOpen[id]) {
+        body.classList.remove('open');
+        var chev = document.getElementById('ch-' + id);
+        if (chev) chev.classList.remove('open');
+      }
+    });
+    updatePills();
+    window.removeEventListener('afterprint', onAfterPrint);
+  });
+}
+
+window.addEventListener('beforeprint', function() {
+  ['s1','s2','s3','s4'].forEach(function(id) {
+    var body = document.getElementById(id);
+    body.classList.add('open');
+    body.style.display = 'block';
+  });
+});
+</script>
+</body>
+</html>
